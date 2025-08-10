@@ -18,6 +18,7 @@ export function SimControls() {
     toggleGuides,
     paused,
     togglePause,
+    reset,
   } = useSimStore();
 
   return (
@@ -67,13 +68,21 @@ export function SimControls() {
       <label className="flex items-center gap-2">
         <input type="checkbox" checked={guides} onChange={toggleGuides} /> Guides
       </label>
-      <button
-        onClick={togglePause}
-        className="mt-2 flex items-center gap-1 rounded bg-neutral-800 px-2 py-1"
-      >
-        {paused ? <Play size={16} /> : <Pause size={16} />}
-        {paused ? 'Resume' : 'Pause'}
-      </button>
+      <div className="mt-2 flex gap-2">
+        <button
+          onClick={togglePause}
+          className="flex items-center gap-1 rounded bg-neutral-800 px-2 py-1"
+        >
+          {paused ? <Play size={16} /> : <Pause size={16} />}
+          {paused ? 'Resume' : 'Pause'}
+        </button>
+        <button
+          onClick={reset}
+          className="flex items-center gap-1 rounded bg-neutral-800 px-2 py-1"
+        >
+          Reset
+        </button>
+      </div>
     </motion.div>
   );
 }

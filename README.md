@@ -293,39 +293,38 @@ Run from repo root with `pnpm --filter ./apps/web <script>` (or `cd apps/web`).
 
 **Workflow**: build static site → publish `apps/web/out` to `gh-pages` branch.
 
-**`.github/workflows/gh-pages.yml`**
+**`.github/workflows/deploy.yml`**
 
 ```yaml
 name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
-      - run: corepack enable
-      - run: pnpm install --frozen-lockfile
-      - name: Build (static export)
-        env:
-          CI: true
-          NEXT_PUBLIC_REPO_NAME: orb-alchemy
-        run: |
-          pnpm --filter ./apps/web build
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm --filter web build
+      - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./apps/web/out
+          publish_dir: apps/web/out
 ```
+
+`next.config.mjs` derives the repository name from `GITHUB_REPOSITORY`, so the site works on GitHub Pages without extra configuration. Set `NEXT_PUBLIC_REPO_NAME` to override this behavior when needed.
 
 **GitHub settings → Pages**: Source = `gh-pages` branch, `/ (root)`.
 
