@@ -1,13 +1,3 @@
 node_modules
-.pnpm-store
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnp
-.pnp.js
-coverage
-.DS_Store
-dist
-out
-*.log
-
+apps/web/.next
+apps/web/out

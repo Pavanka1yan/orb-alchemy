@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build"
   },
   "devDependencies": {
     "typescript": "^5.4.5",
